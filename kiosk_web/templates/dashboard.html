@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 500px;
+            text-align: center;
+            background: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        /* 🔴 Logout button (Top-Right) */
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .card {
+            width: 200px;
+            height: 120px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card a {
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 🔒 Logout popup background */
+        .popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 🔒 Popup box */
+        .popup-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .popup-content button {
+            margin: 10px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .confirm {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .cancel {
+            background: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Logout Button -->
+        <button class="logout-btn" onclick="openPopup()">Logout</button>
+
+        <h1>Dashboard</h1>
+
+        <div class="cards">
+            <div class="card">
+                <a href="/logs">View Login Records</a>
+            </div>
+
+            <div class="card">
+                <a href="/history">View Security Alert History</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Popup -->
+    <div class="popup" id="logoutPopup">
+        <div class="popup-content">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to logout?</p>
+            <button class="confirm" onclick="logout()">Yes</button>
+            <button class="cancel" onclick="closePopup()">No</button>
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            document.getElementById("logoutPopup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("logoutPopup").style.display = "none";
+        }
+
+        function logout() {
+            window.location.href = "/logout";
+        }
+    </script>
+
+</body>
+</html>

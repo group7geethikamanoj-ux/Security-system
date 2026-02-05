@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Denied Users</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/allowed">Allowed</a>
+    <a href="/denied">Denied</a>
+    <a href="/logout" class="right">Logout</a>
+</div>
+
+<h2>Denied Users</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Dept</th>
+        <th>Reason</th>
+        <th>Face</th>
+        <th>Alcohol</th>
+        <th>Mobile</th>
+        <th>Entry Time</th>
+    </tr>
+
+    {% for row in logs %}
+    <tr>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+        <td>{{ row[7] }}</td>
+        <td>{{ row[8] }}</td>
+        <td>{{ row[9] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

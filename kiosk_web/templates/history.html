@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>History - Blacklisted / Denied</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta http-equiv="refresh" content="10"> <!-- optional -->
+</head>
+<body>
+<div class="container">
+    <h1>History (Blacklisted / Denied)</h1>
+
+    {% if logs and logs|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Blacklist</th>
+                <th>Status</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for log in logs %}
+            <tr>
+                <td>{{ log.get('name','') }}</td>
+                <td>{{ log.get('designation','') }}</td>
+                <td>{{ log.get('blacklist_status','') }}</td>
+                <td>{{ log.get('final_status','') }}</td>
+                <td>{{ log.get('timestamp','') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No history records found.</p>
+    {% endif %}
+
+    <br><br>
+    <a href="/dashboard">Back to Dashboard</a>
+</div>
+</body>
+</html>
