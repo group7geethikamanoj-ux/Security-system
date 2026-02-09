@@ -1,64 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin Login</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;   /* horizontal center */
-            align-items: center;       /* vertical center */
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-        }
+<meta charset="UTF-8">
+<title>Admin Login – SIECS</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    html, body { width:100%; height:100%; overflow:hidden; background:#111; }
 
-        .login-container {
-            background: #ffffff;
-            padding: 30px 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            text-align: center;
-        }
+    /* Network canvas */
+    #network {
+        position:absolute;
+        top:0; left:0;
+        width:100%;
+        height:100%;
+        pointer-events:none;
+        z-index:0;
+    }
 
-        .login-container h2 {
-            margin-bottom: 20px;
-        }
+    /* Centered login form */
+    .login-container {
+        position:relative;
+        z-index:1;
+        width:360px;
+        margin:0 auto;
+        top:50%;
+        transform: translateY(-50%);
+        text-align:center;
+        background: #fff;
+        color: #111;
+        padding:40px 30px;
+        border-radius:12px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.3);
+        border: 2px solid rgba(10,132,255,0.3);
+        animation: pulseBorder 2.5s infinite;
+    }
 
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-        }
+    @keyframes pulseBorder {
+        0%,100% { border-color: rgba(10,132,255,0.3); box-shadow: 0 0 25px rgba(10,132,255,0.2); }
+        50% { border-color: rgba(10,132,255,0.6); box-shadow: 0 0 30px rgba(10,132,255,0.4); }
+    }
 
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+    .icon { font-size:60px; margin-bottom:20px; color:#0a84ff; }
+    h1 { font-size:36px; margin-bottom:10px; }
+    .subtitle { font-size:14px; color:#555; margin-bottom:25px; }
 
-        .login-container button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    input {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #f9f9f9;
+        color: #111;
+        font-size:14px;
+        transition: 0.2s;
+    }
+
+    input:focus {
+        border-color: #0a84ff;
+        box-shadow: 0 0 8px rgba(10,132,255,0.5);
+        outline: none;
+    }
+
+    button {
+        width:100%;
+        background:#0a84ff;
+        color:#fff;
+        padding:12px;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;
+        transition:0.2s;
+        font-size:16px;
+    }
+
+    button:hover {
+        background:#0066cc;
+        box-shadow: 0 0 15px rgba(10,132,255,0.5);
+    }
+</style>
 </head>
-
 <body>
 
-    <div class="login-container">
-        <h2>Admin Login</h2>
+<canvas id="network"></canvas>
 
-        <form method="POST" action="/login">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+<div class="login-container">
+    <div class="icon">🔐</div>
+    <h1>SIECS</h1>
+    <p class="subtitle">Administrator Authentication</p>
+    <form method="POST" action="/login">
+        <input type="text" name="username" placeholder="Admin Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+
+<script>
+const canvas = document.getElementById('network');
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+const numPoints = 30;
+const maxDistance = 120;
+const points = [];
+
+// Initialize points
+for(let i=0;i<numPoints;i++){
+    points.push({
+        x: Math.random()*width,
+        y: Math.random()*height,
+        vx: (Math.random()-0.5)*0.3,
+        vy: (Math.random()-0.5)*0.3
+    });
+}
+
+let mouseX = width/2;
+let mouseY = height/2;
+document.addEventListener('mousemove', e=>{
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+function draw(){
+    ctx.clearRect(0,0,width,height);
+
+    // Lines between points
+    for(let i=0;i<numPoints;i++){
+        const p1 = points[i];
+        for(let j=i+1;j<numPoints;j++){
+            const p2 = points[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if(dist < maxDistance){
+                ctx.strokeStyle = `rgba(255,255,255,${0.03 + 0.4*(1 - dist/maxDistance)})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(p1.x,p1.y);
+                ctx.lineTo(p2.x,p2.y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    // Lines to mouse
+    for(let i=0;i<numPoints;i++){
+        const p = points[i];
+        const dx = p.x - mouseX;
+        const dy = p.y - mouseY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < maxDistance){
+            ctx.strokeStyle = `rgba(10,132,255,${0.5*(1 - dist/maxDistance)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x,p.y);
+            ctx.lineTo(mouseX,mouseY);
+            ctx.stroke();
+        }
+    }
+
+    // Draw points
+    for(let i=0;i<numPoints;i++){
+        const p = points[i];
+        ctx.fillStyle = '#0a84ff';
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fill();
+    }
+
+    // Mouse node
+    ctx.beginPath();
+    const grad = ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,8);
+    grad.addColorStop(0,'rgba(10,132,255,0.7)');
+    grad.addColorStop(1,'rgba(10,132,255,0)');
+    ctx.fillStyle = grad;
+    ctx.arc(mouseX,mouseY,8,0,Math.PI*2);
+    ctx.fill();
+}
+
+function update(){
+    for(let i=0;i<numPoints;i++){
+        const p = points[i];
+        p.x += p.vx + (mouseX-width/2)*0.0003;
+        p.y += p.vy + (mouseY-height/2)*0.0003;
+        if(p.x<0 || p.x>width) p.vx*=-1;
+        if(p.y<0 || p.y>height) p.vy*=-1;
+    }
+}
+
+function animate(){
+    update();
+    draw();
+    requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener('resize', ()=>{
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+});
+</script>
 
 </body>
 </html>
