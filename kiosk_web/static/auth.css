@@ -1,0 +1,63 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f5f9;
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 40px;
+    width: 360px;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.login-container h1 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #020617;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 25px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #cbd5f5;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e293b;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #020617;
+}
