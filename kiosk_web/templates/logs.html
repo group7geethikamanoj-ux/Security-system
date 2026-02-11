@@ -52,6 +52,7 @@
                 <th>Alcohol</th>
                 <th>Mobile</th>
                 <th>Face</th>
+                <th>Fingerprint</th>
                 <th>Status</th>
                 <th>Timestamp</th>
             </tr>
@@ -65,6 +66,7 @@
                 <td>{{ log.get('blacklist_status','') }}</td>
                 <td>{{ log.get('alcohol','') }}</td>
                 <td>{{ log.get('mobile','') }}</td>
+                <td>{{ log.get('fingerprint','') }}</td>
                 <td>{{ log.get('face_status','') }}</td>
 
                 <td>
@@ -126,3 +128,4 @@ function filterTable() {
 
 </body>
 </html>
+
