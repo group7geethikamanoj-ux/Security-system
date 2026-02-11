@@ -68,11 +68,12 @@
                 <td>{{ log.get('face_status','') }}</td>
 
                 <td>
-                    {% if log.get('blacklist_status') == 'Yes' or log.get('final_status') == 'Denied' %}
-                        <span class="badge danger">DENIED</span>
-                    {% else %}
-                        <span class="badge success">ALLOWED</span>
-                    {% endif %}
+                   {% if log.final_status == "DENIED" %}
+                   <span class="badge danger">DENIED</span>
+                   {% else %}
+                   <span class="badge success">ALLOWED</span>
+                   {% endif %}
+
                 </td>
 
                 <td>{{ log.get('timestamp','') }}</td>
